@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import { t, LOCALES } from "../../../i18n";
+import { getCollection } from 'astro:content';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const _ = (k) => t(lang, k);
+
+// Get all articles for this language
+const allPosts = await getCollection('blog', ({ data }) => data.lang === lang);
+const sortedPosts = allPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<BaseLayout 
+  title={`${_('nav.blog')} — InsideTheGame`} 
+  description={lang === 'it' ? 'Tutte le nostre analisi calcistiche' : 
+               lang === 'es' ? 'Todos nuestros análisis futbolísticos' :
+               'All our football analysis'}
+  lang={lang}
+>
+  <Header />
+  
+  <!-- Language Switcher -->
+  <div class="bg-gray-50 border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+      <div class="flex justify-end space-x-4">
+        <a href="/it/blog/" class={`text-sm ${lang === 'it' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+          🇮🇹 Italiano
+        </a>
+        <a href="/en/blog/" class={`text-sm ${lang === 'en' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+          🇬🇧 English
+        </a>
+        <a href="/es/blog/" class={`text-sm ${lang === 'es' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+          🇪🇸 Español
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          {_('nav.blog')}
+        </h1>
+        <p class="text-xl text-gray-600">
+          {lang === 'it' ? 'Analisi approfondite, tattiche e insights dal mondo del calcio' : 
+           lang === 'es' ? 'Análisis profundos, tácticas e insights del mundo del fútbol' :
+           'In-depth analysis, tactics and insights from the world of football'}
+        </p>
+      </div>
+
+      <!-- Articles Grid -->
+      {sortedPosts.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedPosts.map((post) => (
+            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <FormattedDate date={post.data.date} />
+                </div>
+                <h2 class="text-xl font-semibold mb-3 line-clamp-2">
+                  <a href={`/${lang}/blog/${post.data.id || post.slug}/`} class="text-gray-900 hover:text-blue-600 transition-colors">
+                    {post.data.title}
+                  </a>
+                </h2>
+                {post.data.description && (
+                  <p class="text-gray-600 mb-4 line-clamp-3">
+                    {post.data.description}
+                  </p>
+                )}
+                <a 
+                  href={`/${lang}/blog/${post.data.id || post.slug}/`}
+                  class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  {_('common.readMore')}
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-gray-500 text-lg">{_('home.latestNews.noArticles')}</p>
+        </div>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

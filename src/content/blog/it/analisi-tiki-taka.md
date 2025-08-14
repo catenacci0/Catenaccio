@@ -3,6 +3,7 @@ title: "Analisi Tattica: La Rivoluzione del Tiki-Taka nel Calcio Moderno"
 description: "Un'analisi approfondita dell'evoluzione del tiki-taka e del suo impatto sul calcio contemporaneo"
 date: "2025-01-15"
 lang: "it"
+id: "tiki-taka-revolution"
 ---
 
 # Analisi Tattica: La Rivoluzione del Tiki-Taka nel Calcio Moderno

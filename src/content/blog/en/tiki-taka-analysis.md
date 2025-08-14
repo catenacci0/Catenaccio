@@ -3,6 +3,7 @@ title: "Tactical Analysis: The Tiki-Taka Revolution in Modern Football"
 description: "An in-depth analysis of tiki-taka evolution and its impact on contemporary football"
 date: "2025-01-15"
 lang: "en"
+id: "tiki-taka-revolution"
 ---
 
 # Tactical Analysis: The Tiki-Taka Revolution in Modern Football

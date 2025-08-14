@@ -3,6 +3,7 @@ title: "Player Heat Maps: How to Interpret Movement Data"
 description: "Complete guide to interpreting heat maps in modern football"
 date: "2025-01-12"
 lang: "en"
+id: "heat-maps-guide"
 ---
 
 # Player Heat Maps: How to Interpret Movement Data

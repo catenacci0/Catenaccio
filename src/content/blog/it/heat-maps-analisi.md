@@ -3,6 +3,7 @@ title: "Heat Maps dei Giocatori: Come Interpretare i Dati di Movimento"
 description: "Guida completa all'interpretazione delle heat maps nel calcio moderno"
 date: "2025-01-12"
 lang: "it"
+id: "heat-maps-guide"
 ---
 
 # Heat Maps dei Giocatori: Come Interpretare i Dati di Movimento

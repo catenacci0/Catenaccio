@@ -15,6 +15,8 @@ const blog = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			heroImage: image().optional(),
 			lang: z.enum(['it', 'en', 'es']).default('en'),
+			// Custom ID for consistent routing across languages
+			id: z.string().optional(),
 		}).refine((data) => data.date || data.pubDate, {
 			message: "Either 'date' or 'pubDate' must be provided",
 		}).transform((data) => ({
