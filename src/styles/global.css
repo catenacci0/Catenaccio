@@ -42,12 +42,14 @@ body {
 	color: rgb(var(--gray-dark));
 	font-size: 20px;
 	line-height: 1.7;
+	overflow-x: hidden; /* Previeni overflow orizzontale */
 }
 main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
+	box-sizing: border-box; /* Include padding nella larghezza */
 }
 h1,
 h2,

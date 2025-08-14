@@ -3,6 +3,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
+import SocialShare from "../../../components/SocialShare.astro";
 import { t, LOCALES } from "../../../i18n";
 import { getCollection, render } from 'astro:content';
 import { createLangUrl } from "../../../utils/urls";
@@ -56,6 +57,10 @@ const currentId = post.data.id || post.slug;
 const relatedPosts = allPosts.filter(p => (p.data.id || p.slug) === currentId);
 
 const { Content } = await render(post);
+
+// Costruisci l'URL completo dell'articolo per la condivisione social
+const currentUrl = new URL(Astro.request.url);
+const fullArticleUrl = `${currentUrl.origin}${createLangUrl(lang, `/blog/${id}`)}`;
 ---
 
 <BaseLayout 
@@ -89,32 +94,34 @@ const { Content } = await render(post);
   </div>
 
   <!-- Breadcrumb -->
-  <div class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+  <div class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300 overflow-hidden">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <nav class="flex" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-4">
-          <li>
-            <a href={createLangUrl(lang)} class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
+      <nav class="overflow-hidden" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-4 overflow-x-auto scrollbar-hide min-w-0">
+          <li class="flex-shrink-0">
+            <a href={createLangUrl(lang)} class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200 whitespace-nowrap">
               {_('nav.home')}
             </a>
           </li>
-          <li>
+          <li class="flex-shrink-0">
             <svg class="flex-shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li>
-            <a href={createLangUrl(lang, '/blog')} class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
+          <li class="flex-shrink-0">
+            <a href={createLangUrl(lang, '/blog')} class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200 whitespace-nowrap">
               {_('nav.blog')}
             </a>
           </li>
-          <li>
+          <li class="flex-shrink-0">
             <svg class="flex-shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li class="text-gray-900 dark:text-gray-100 font-medium truncate">
-            {post.data.title}
+          <li class="text-gray-900 dark:text-gray-100 font-medium min-w-0 flex-shrink-0">
+            <span class="whitespace-nowrap" title={post.data.title}>
+              {post.data.title}
+            </span>
           </li>
         </ol>
       </nav>
@@ -147,14 +154,16 @@ const { Content } = await render(post);
 
       <!-- Article Footer -->
       <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
-        <div class="flex items-center justify-between">
-          <div class="flex space-x-4">
-            <span class="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
-              {lang === 'it' ? 'Condividi questo articolo:' : 
-               lang === 'es' ? 'Comparte este artículo:' :
-               'Share this article:'}
-            </span>
-          </div>
+        <!-- Social Share -->
+        <SocialShare 
+          title={post.data.title}
+          description={post.data.description}
+          url={fullArticleUrl}
+          lang={lang}
+        />
+        
+        <!-- Back to Blog -->
+        <div class="flex items-center justify-center mt-8">
           <a 
             href={createLangUrl(lang, '/blog')}
             class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
@@ -172,6 +181,11 @@ const { Content } = await render(post);
 </BaseLayout>
 
 <style>
+  /* Prevenzione overflow generale */
+  body {
+    overflow-x: hidden;
+  }
+  
   /* Testo ben leggibile ma più morbido in dark mode */
   .dark .prose {
     color: rgb(243 244 246) !important; /* text-gray-100 - più grigio */
@@ -256,5 +270,26 @@ const { Content } = await render(post);
   
   .dark .prose a:hover {
     color: rgb(147 197 253); /* text-blue-300 */
+  }
+  
+  /* Breadcrumb mobile-friendly styles */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+  }
+  
+  /* Assicurati che tutti i contenitori non causino overflow */
+  .max-w-4xl, .max-w-7xl {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Prevenzione overflow per elementi con padding/margin */
+  * {
+    box-sizing: border-box;
   }
 </style>
