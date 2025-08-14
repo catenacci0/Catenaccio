@@ -1,18 +1,23 @@
-name: Deploy Astro to GitHub Pages
+# Simple workflow for deploying Astro static site to GitHub Pages
+name: Deploy static content to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches: ["master", "main"]
+    branches: ["master"]   # <— se il branch è main, cambia qui in "main"
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -27,7 +32,7 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      # Calcola SITE/BASE_URL (custom domain opzionale via repo variable)
+      # Imposta automaticamente SITE/BASE_URL (supporta dominio custom via repo variable CUSTOM_DOMAIN)
       - name: Compute SITE and BASE_URL
         run: |
           if [ -n "${{ vars.CUSTOM_DOMAIN }}" ]; then
@@ -44,19 +49,20 @@ jobs:
             fi
           fi
 
-      - name: Install deps
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build Astro
         env:
           SITE: ${{ env.SITE }}
           BASE_URL: ${{ env.BASE_URL }}
         run: npm run build
 
-      # Consigliato da GitHub prima del deploy
-      - name: Configure Pages
+      # Preparazione Pages (consigliato da GitHub)
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # Carica l'artefatto generato da Astro
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
