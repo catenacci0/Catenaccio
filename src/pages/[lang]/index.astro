@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { t, LOCALES } from "../../i18n";
 import { getCollection } from 'astro:content';
+import { createLangUrl } from "../../utils/urls";
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({ params: { lang } }));
@@ -25,44 +26,44 @@ const latestPosts = allPosts
   description={_('home.hero.description')}
   lang={lang}
 >
-  <Header />
+  <Header lang={lang} />
   
   <!-- Language Switcher -->
-  <div class="lang-switcher">
-    <div class="lang-container">
-      <div class="lang-links">
-        <a href="/it/" class={`lang-link ${lang === 'it' ? 'active' : ''}`}>
+  <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+      <div class="flex justify-end space-x-4">
+        <a href={createLangUrl('it')} class={`text-sm transition-colors duration-200 ${lang === 'it' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
           🇮🇹 Italiano
         </a>
-        <a href="/en/" class={`lang-link ${lang === 'en' ? 'active' : ''}`}>
+        <a href={createLangUrl('en')} class={`text-sm transition-colors duration-200 ${lang === 'en' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
           🇬🇧 English
         </a>
-        <a href="/es/" class={`lang-link ${lang === 'es' ? 'active' : ''}`}>
+        <a href={createLangUrl('es')} class={`text-sm transition-colors duration-200 ${lang === 'es' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
           🇪🇸 Español
         </a>
       </div>
     </div>
   </div>
 
-  <main>
+  <main class="bg-white dark:bg-gray-900 transition-colors duration-300">
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-container">
-        <div class="hero-content">
-          <h1 class="hero-title">
+    <section class="bg-gradient-to-br from-green-600 to-blue-600 dark:from-green-700 dark:to-blue-700 text-white py-24 transition-colors duration-300">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             {_('home.hero.title')}
           </h1>
-          <p class="hero-subtitle">
+          <p class="text-xl md:text-2xl mb-6 text-green-100">
             {_('home.hero.subtitle')}
           </p>
-          <p class="hero-description">
+          <p class="text-lg mb-8 text-blue-100 leading-relaxed">
             {_('home.hero.description')}
           </p>
-          <div class="hero-buttons">
-            <a href={`/${lang}/blog/`} class="btn btn-primary">
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href={createLangUrl(lang, '/blog')} class="inline-block bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
               {_('nav.blog')}
             </a>
-            <a href={`/${lang}/about/`} class="btn btn-secondary">
+            <a href={createLangUrl(lang, '/about')} class="inline-block border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors">
               {_('nav.about')}
             </a>
           </div>
@@ -71,64 +72,64 @@ const latestPosts = allPosts
     </section>
 
     <!-- Features Section -->
-    <section class="features">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">
+    <section class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">
             {_('home.features.title')}
           </h2>
         </div>
         
-        <div class="features-grid">
+        <div class="grid md:grid-cols-3 gap-8">
           <!-- Tactical Analysis -->
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-green">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mb-6 transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
               </svg>
             </div>
-            <h3 class="feature-title">{_('home.features.tactical.title')}</h3>
-            <p class="feature-description">{_('home.features.tactical.description')}</p>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">{_('home.features.tactical.title')}</h3>
+            <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">{_('home.features.tactical.description')}</p>
           </div>
 
           <!-- Data Analysis -->
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-blue">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mb-6 transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
               </svg>
             </div>
-            <h3 class="feature-title">{_('home.features.data.title')}</h3>
-            <p class="feature-description">{_('home.features.data.description')}</p>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">{_('home.features.data.title')}</h3>
+            <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">{_('home.features.data.description')}</p>
           </div>
 
           <!-- Multilingual -->
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-purple">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mb-6 transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
               </svg>
             </div>
-            <h3 class="feature-title">{_('home.features.multilang.title')}</h3>
-            <p class="feature-description">{_('home.features.multilang.description')}</p>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">{_('home.features.multilang.title')}</h3>
+            <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">{_('home.features.multilang.description')}</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- About Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 transition-colors duration-300">
           {_('home.about.title')}
         </h2>
-        <p class="text-lg text-gray-600 leading-relaxed">
+        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed transition-colors duration-300">
           {_('home.about.description')}
         </p>
         <div class="mt-12">
           <a 
-            href={`/${lang}/about/`}
-            class="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            href={createLangUrl(lang, '/about')}
+            class="inline-block bg-blue-600 dark:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
           >
             {_('common.readMore')}
           </a>
@@ -137,13 +138,13 @@ const latestPosts = allPosts
     </section>
 
     <!-- Latest Articles Preview -->
-    <section class="py-20 bg-white">
+    <section class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">
             {_('home.latestNews.title')}
           </h2>
-          <p class="text-lg text-gray-600">
+          <p class="text-lg text-gray-600 dark:text-gray-300 transition-colors duration-300">
             {lang === 'it' ? 'Le nostre ultime analisi e approfondimenti' : 
              lang === 'es' ? 'Nuestros últimos análisis y perspectivas' :
              'Our latest analysis and insights'}
@@ -153,24 +154,24 @@ const latestPosts = allPosts
         {latestPosts.length > 0 ? (
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {latestPosts.map((post) => (
-              <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <article class="bg-white dark:bg-gray-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
                 <div class="p-6">
-                  <div class="flex items-center text-sm text-gray-500 mb-3">
+                  <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3 transition-colors duration-300">
                     <FormattedDate date={post.data.date} />
                   </div>
                   <h3 class="text-xl font-semibold mb-3 line-clamp-2">
-                    <a href={`/${lang}/blog/${post.data.id || post.slug}/`} class="text-gray-900 hover:text-blue-600 transition-colors">
+                    <a href={createLangUrl(lang, `/blog/${post.data.id || post.slug}`)} class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
                       {post.data.title}
                     </a>
                   </h3>
                   {post.data.description && (
-                    <p class="text-gray-600 mb-4 line-clamp-3">
+                    <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 transition-colors duration-300">
                       {post.data.description}
                     </p>
                   )}
                   <a 
-                    href={`/${lang}/blog/${post.data.id || post.slug}/`}
-                    class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                    href={createLangUrl(lang, `/blog/${post.data.id || post.slug}`)}
+                    class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
                   >
                     {_('common.readMore')}
                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,14 +184,14 @@ const latestPosts = allPosts
           </div>
         ) : (
           <div class="text-center py-12">
-            <p class="text-gray-500 text-lg">{_('home.latestNews.noArticles')}</p>
+            <p class="text-gray-500 dark:text-gray-400 text-lg transition-colors duration-300">{_('home.latestNews.noArticles')}</p>
           </div>
         )}
         
         <div class="text-center">
           <a 
-            href={`/${lang}/blog/`}
-            class="inline-block bg-green-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-green-700 transition-colors"
+            href={createLangUrl(lang, '/blog')}
+            class="inline-block bg-green-600 dark:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors duration-200"
           >
             {_('common.seeMore')}
           </a>
@@ -202,304 +203,4 @@ const latestPosts = allPosts
   <Footer />
 </BaseLayout>
 
-<style>
-  /* Language Switcher */
-  .lang-switcher {
-    background: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
-    padding: 0.5rem 0;
-  }
-  
-  .lang-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  
-  .lang-links {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-  }
-  
-  .lang-link {
-    font-size: 0.875rem;
-    color: #6c757d;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  
-  .lang-link:hover {
-    color: #2563eb;
-  }
-  
-  .lang-link.active {
-    font-weight: bold;
-    color: #2563eb;
-  }
 
-  /* Hero Section */
-  .hero {
-    background: linear-gradient(135deg, #059669, #2563eb);
-    color: white;
-    padding: 6rem 0;
-    text-align: center;
-  }
-  
-  .hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  
-  .hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .hero-description {
-    font-size: 1.125rem;
-    margin-bottom: 3rem;
-    max-width: 32rem;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 0.9;
-  }
-  
-  .hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* Buttons */
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  
-  .btn-primary {
-    background: white;
-    color: #2563eb;
-  }
-  
-  .btn-primary:hover {
-    background: #f3f4f6;
-  }
-  
-  .btn-secondary {
-    border: 2px solid white;
-    color: white;
-  }
-  
-  .btn-secondary:hover {
-    background: white;
-    color: #2563eb;
-  }
-
-  /* Container and sections */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  
-  .features {
-    padding: 5rem 0;
-    background: white;
-  }
-  
-  .section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-  }
-  
-  .section-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #111827;
-    margin-bottom: 1rem;
-  }
-
-  /* Features Grid */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .feature-card {
-    text-align: center;
-    padding: 2rem;
-    background: #f8f9fa;
-    border-radius: 0.5rem;
-  }
-  
-  .feature-icon {
-    width: 4rem;
-    height: 4rem;
-    margin: 0 auto 1rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .feature-icon-green {
-    background: #059669;
-    color: white;
-  }
-  
-  .feature-icon-blue {
-    background: #2563eb;
-    color: white;
-  }
-  
-  .feature-icon-purple {
-    background: #7c3aed;
-    color: white;
-  }
-  
-  .icon {
-    width: 2rem;
-    height: 2rem;
-  }
-  
-  .feature-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-  
-  .feature-description {
-    color: #6b7280;
-  }
-
-  /* Articles Grid */
-  .articles-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-  
-  .article-card {
-    background: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: box-shadow 0.2s;
-  }
-  
-  .article-card:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .article-content {
-    padding: 1.5rem;
-  }
-  
-  .article-date {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 0.75rem;
-  }
-  
-  .article-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-  }
-  
-  .article-title a {
-    color: #111827;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  
-  .article-title a:hover {
-    color: #2563eb;
-  }
-  
-  .article-description {
-    color: #6b7280;
-    margin-bottom: 1rem;
-    line-height: 1.6;
-  }
-  
-  .read-more {
-    display: inline-flex;
-    align-items: center;
-    color: #2563eb;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  
-  .read-more:hover {
-    color: #1d4ed8;
-  }
-  
-  .read-more svg {
-    width: 1rem;
-    height: 1rem;
-    margin-left: 0.25rem;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2rem;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.25rem;
-    }
-    
-    .section-title {
-      font-size: 2rem;
-    }
-    
-    .hero-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .btn {
-      width: 100%;
-      max-width: 20rem;
-    }
-  }
-  
-  /* Utility classes */
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.4;
-  }
-  
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.6;
-  }
-</style>

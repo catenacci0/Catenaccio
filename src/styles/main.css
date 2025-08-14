@@ -45,6 +45,13 @@
   html {
     scroll-behavior: smooth;
   }
+  
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    html {
+      color-scheme: dark;
+    }
+  }
 }
 
 /* Component utilities */

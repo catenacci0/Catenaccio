@@ -5,6 +5,7 @@ import Footer from "../../../components/Footer.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
 import { t, LOCALES } from "../../../i18n";
 import { getCollection, render } from 'astro:content';
+import { createLangUrl } from "../../../utils/urls";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -62,22 +63,22 @@ const { Content } = await render(post);
   description={post.data.description}
   lang={lang}
 >
-  <Header />
+  <Header lang={lang} />
   
   <!-- Language Switcher -->
-  <div class="bg-gray-50 border-b">
+  <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
       <div class="flex justify-end space-x-4">
         {LOCALES.map(l => {
           const relatedPost = relatedPosts.find(p => p.data.lang === l);
-          const href = relatedPost ? `/${l}/blog/${relatedPost.data.id || relatedPost.slug}/` : `/${l}/blog/`;
+          const href = relatedPost ? createLangUrl(l, `/blog/${relatedPost.data.id || relatedPost.slug}`) : createLangUrl(l, '/blog');
           const flag = l === 'it' ? '🇮🇹' : l === 'es' ? '🇪🇸' : '🇬🇧';
           const label = l === 'it' ? 'Italiano' : l === 'es' ? 'Español' : 'English';
           
           return (
             <a 
               href={href} 
-              class={`text-sm ${lang === l ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}
+              class={`text-sm transition-colors duration-200 ${lang === l ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}
             >
               {flag} {label}
             </a>
@@ -88,31 +89,31 @@ const { Content } = await render(post);
   </div>
 
   <!-- Breadcrumb -->
-  <div class="bg-white border-b">
+  <div class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <nav class="flex" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-4">
           <li>
-            <a href={`/${lang}/`} class="text-gray-500 hover:text-gray-700">
+            <a href={createLangUrl(lang)} class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
               {_('nav.home')}
             </a>
           </li>
           <li>
-            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="flex-shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
           <li>
-            <a href={`/${lang}/blog/`} class="text-gray-500 hover:text-gray-700">
+            <a href={createLangUrl(lang, '/blog')} class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
               {_('nav.blog')}
             </a>
           </li>
           <li>
-            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="flex-shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li class="text-gray-900 font-medium truncate">
+          <li class="text-gray-900 dark:text-gray-100 font-medium truncate">
             {post.data.title}
           </li>
         </ol>
@@ -120,19 +121,19 @@ const { Content } = await render(post);
     </div>
   </div>
 
-  <main class="py-12">
+  <main class="py-12 bg-white dark:bg-gray-900 transition-colors duration-300">
     <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Article Header -->
       <header class="mb-8">
         <div class="text-center mb-8">
-          <div class="flex items-center justify-center text-sm text-gray-500 mb-4">
+          <div class="flex items-center justify-center text-sm text-gray-500 dark:text-gray-400 mb-4">
             <FormattedDate date={post.data.date} />
           </div>
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6 leading-tight transition-colors duration-300">
             {post.data.title}
           </h1>
           {post.data.description && (
-            <p class="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto transition-colors duration-300">
               {post.data.description}
             </p>
           )}
@@ -140,23 +141,23 @@ const { Content } = await render(post);
       </header>
 
       <!-- Article Content -->
-      <div class="prose prose-lg prose-blue max-w-none">
+      <div class="prose prose-lg prose-blue dark:prose-invert max-w-none transition-colors duration-300">
         <Content />
       </div>
 
       <!-- Article Footer -->
-      <footer class="mt-12 pt-8 border-t border-gray-200">
+      <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div class="flex items-center justify-between">
           <div class="flex space-x-4">
-            <span class="text-sm text-gray-500">
+            <span class="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
               {lang === 'it' ? 'Condividi questo articolo:' : 
                lang === 'es' ? 'Comparte este artículo:' :
                'Share this article:'}
             </span>
           </div>
           <a 
-            href={`/${lang}/blog/`}
-            class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+            href={createLangUrl(lang, '/blog')}
+            class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-200"
           >
             ← {lang === 'it' ? 'Torna al blog' : 
                  lang === 'es' ? 'Volver al blog' :
