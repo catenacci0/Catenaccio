@@ -15,7 +15,7 @@ const encodedUrl = encodeURIComponent(url);
 
 // Social media hashtags based on language
 const getHashtags = (lang: string) => {
-  const common = ['calcio', 'football', 'soccer', 'tactics', 'InsideTheGame'];
+  const common = ['calcio', 'football', 'soccer', 'tactics', 'Catenaccio'];
   switch (lang) {
     case 'it': return [...common, 'analisi', 'tattica'].join(',');
     case 'es': return [...common, 'análisis', 'táctica'].join(',');
@@ -65,7 +65,7 @@ const getLabels = (lang: string) => {
 const labels = getLabels(lang);
 ---
 
-<div class="social-share border-t border-gray-200 dark:border-gray-700 pt-8 mt-8">
+<div class="social-share border-t border-gray-200 dark:border-gray-700 pt-6 mt-8">
   <!-- Share Button (Always Visible) -->
   <div class="flex items-center justify-center">
     <button 

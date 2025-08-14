@@ -1,21 +1,19 @@
-# Astro Starter Kit: Blog
+# Catenaccio - Piattaforma di Analisi Calcistica
 
-```sh
-npm create astro@latest -- --template blog
-```
+Una piattaforma web multilingue dedicata all'analisi tattica e agli approfondimenti calcistici, costruita con Astro.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 🚀 Caratteristiche
 
-Features:
+- ✅ Supporto multilingue (Italiano, Inglese, Spagnolo)
+- ✅ Dark mode con toggle manuale e preferenze di sistema
+- ✅ Ottimizzazione SEO con URL canonici e OpenGraph
+- ✅ Sistema di condivisione social integrato
+- ✅ Design responsive e mobile-friendly
+- ✅ Performance ottimizzate con Lighthouse 100/100
+- ✅ Feed RSS multilingue
+- ✅ Supporto Markdown & MDX
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
+## 🏗️ Struttura del Progetto
 
 Inside of your Astro project, you'll see the following folders and files:
 

@@ -4,6 +4,7 @@ description: "Un análisis profundo de la evolución del tiki-taka y su impacto 
 date: "2025-01-15"
 lang: "es"
 id: "tiki-taka-revolution"
+author: "Gabriele Papalini"
 ---
 
 ## Evolución del Sistema

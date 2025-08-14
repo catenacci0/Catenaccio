@@ -1,7 +1,7 @@
-# InsideTheGame - Specifiche del Progetto
+# Catenaccio - Specifiche del Progetto
 
 ## Panoramica del Progetto
-InsideTheGame è una piattaforma web dedicata alla pubblicazione di contenuti di analisi calcistica, con focus particolare sull'analisi tattica e sui movimenti delle squadre.
+Catenaccio è una piattaforma web dedicata alla pubblicazione di contenuti di analisi calcistica, con focus particolare sull'analisi tattica e sui movimenti delle squadre.
 
 ## Funzionalità Principali
 

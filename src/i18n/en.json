@@ -13,7 +13,7 @@
   },
   "home": {
     "hero": {
-      "title": "InsideTheGame",
+      "title": "Catenaccio",
       "subtitle": "Your source for professional football analysis",
       "description": "Discover tactics, team movements and in-depth data analysis from the world of football"
     },
@@ -34,7 +34,7 @@
     },
     "about": {
       "title": "Our Mission",
-      "description": "InsideTheGame is a platform dedicated to professional football analysis. We offer in-depth content on tactics, team movements and player performance, using advanced data and interactive visualizations to take football analysis to the next level."
+      "description": "Catenaccio is a platform dedicated to professional football analysis. We offer in-depth content on tactics, team movements and player performance, using advanced data and interactive visualizations to take football analysis to the next level."
     },
     "latestNews": {
       "title": "Latest News",

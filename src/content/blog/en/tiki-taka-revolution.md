@@ -4,6 +4,7 @@ description: "An in-depth analysis of tiki-taka evolution and its impact on cont
 date: "2025-01-15"
 lang: "en"
 id: "tiki-taka-revolution"
+author: "Gabriele Papalini"
 ---
 
 ## System Evolution

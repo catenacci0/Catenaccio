@@ -17,6 +17,8 @@ const blog = defineCollection({
 			lang: z.enum(['it', 'en', 'es']).default('en'),
 			// Custom ID for consistent routing across languages
 			id: z.string().optional(),
+			// Author information
+			author: z.string().optional().default('Catenaccio Team'),
 		}).refine((data) => data.date || data.pubDate, {
 			message: "Either 'date' or 'pubDate' must be provided",
 		}).transform((data) => ({
