@@ -2,7 +2,7 @@ name: Deploy Astro to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master", "main"]
   workflow_dispatch:
 
 permissions:
@@ -17,7 +17,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,10 +27,7 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      # Calcola SITE e BASE_URL automaticamente.
-      # Opzione A) Se imposti la repository variable CUSTOM_DOMAIN (es: www.esempio.com),
-      #           userà quella (SITE=https://www.esempio.com, BASE_URL=/)
-      # Opzione B) Altrimenti pubblica su user.github.io/repo o / se il repo è user.github.io
+      # Calcola SITE/BASE_URL (custom domain opzionale via repo variable)
       - name: Compute SITE and BASE_URL
         run: |
           if [ -n "${{ vars.CUSTOM_DOMAIN }}" ]; then
@@ -47,9 +43,8 @@ jobs:
               echo "BASE_URL=/${REPO}/" >> $GITHUB_ENV
             fi
           fi
-          echo "Using SITE=$(cat $GITHUB_ENV | grep SITE | cut -d= -f2) BASE_URL=$(cat $GITHUB_ENV | grep BASE_URL | cut -d= -f2)"
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
       - name: Build
@@ -57,6 +52,10 @@ jobs:
           SITE: ${{ env.SITE }}
           BASE_URL: ${{ env.BASE_URL }}
         run: npm run build
+
+      # Consigliato da GitHub prima del deploy
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
