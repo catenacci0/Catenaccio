@@ -34,3 +34,5 @@ Tiki-taka has influenced:
 - Evolution of the goalkeeper role
 
 This playing philosophy continues to evolve, adapting to the new demands of contemporary football.
+
+![Tiki Taka example](../../../assets/tiki-taka-revolution/example.png)

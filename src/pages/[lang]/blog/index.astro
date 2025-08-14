@@ -29,61 +29,87 @@ const sortedPosts = allPosts
   <Header />
   
   <!-- Language Switcher -->
-  <div class="bg-gray-50 border-b">
+  <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
       <div class="flex justify-end space-x-4">
-        <a href="/it/blog/" class={`text-sm ${lang === 'it' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+        <a href="/it/blog/" class={`text-sm transition-colors duration-200 ${lang === 'it' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
           🇮🇹 Italiano
         </a>
-        <a href="/en/blog/" class={`text-sm ${lang === 'en' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+        <a href="/en/blog/" class={`text-sm transition-colors duration-200 ${lang === 'en' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
           🇬🇧 English
         </a>
-        <a href="/es/blog/" class={`text-sm ${lang === 'es' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+        <a href="/es/blog/" class={`text-sm transition-colors duration-200 ${lang === 'es' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
           🇪🇸 Español
         </a>
       </div>
     </div>
   </div>
 
-  <main class="py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 dark:from-blue-800 dark:via-blue-900 dark:to-gray-900 transition-colors duration-300">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="footballPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="0.5"/>
+            <path d="M2,10 L18,10 M10,2 L10,18" stroke="currentColor" stroke-width="0.3"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100" height="100" fill="url(#footballPattern)"/>
+      </svg>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
           {_('nav.blog')}
         </h1>
-        <p class="text-xl text-gray-600">
+        <p class="text-xl md:text-2xl text-blue-100 dark:text-blue-200 max-w-3xl mx-auto leading-relaxed">
           {lang === 'it' ? 'Analisi approfondite, tattiche e insights dal mondo del calcio' : 
            lang === 'es' ? 'Análisis profundos, tácticas e insights del mundo del fútbol' :
            'In-depth analysis, tactics and insights from the world of football'}
         </p>
+        <div class="mt-8 flex justify-center">
+          <div class="bg-white/10 dark:bg-black/20 backdrop-blur-sm rounded-full px-6 py-3 border border-white/20">
+            <span class="text-white/90 text-sm font-medium">
+              {lang === 'it' ? 'Scopri le nostre analisi tattiche' : 
+               lang === 'es' ? 'Descubre nuestros análisis tácticos' :
+               'Discover our tactical analysis'}
+            </span>
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
 
+  <main class="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Articles Grid -->
       {sortedPosts.length > 0 ? (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sortedPosts.map((post) => (
-            <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 overflow-hidden hover:shadow-xl dark:hover:shadow-gray-900/40 transition-all duration-300 transform hover:-translate-y-1">
               <div class="p-6">
-                <div class="flex items-center text-sm text-gray-500 mb-3">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3 transition-colors duration-300">
                   <FormattedDate date={post.data.date} />
                 </div>
                 <h2 class="text-xl font-semibold mb-3 line-clamp-2">
-                  <a href={`/${lang}/blog/${post.data.id || post.slug}/`} class="text-gray-900 hover:text-blue-600 transition-colors">
+                  <a href={`/${lang}/blog/${post.data.id || post.slug}/`} class="text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
                     {post.data.title}
                   </a>
                 </h2>
                 {post.data.description && (
-                  <p class="text-gray-600 mb-4 line-clamp-3">
+                  <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 transition-colors duration-300">
                     {post.data.description}
                   </p>
                 )}
                 <a 
                   href={`/${lang}/blog/${post.data.id || post.slug}/`}
-                  class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                  class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors duration-300"
                 >
                   {_('common.readMore')}
-                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                   </svg>
                 </a>
@@ -92,8 +118,20 @@ const sortedPosts = allPosts
           ))}
         </div>
       ) : (
-        <div class="text-center py-12">
-          <p class="text-gray-500 text-lg">{_('home.latestNews.noArticles')}</p>
+        <div class="text-center py-20">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 p-12 max-w-lg mx-auto transition-colors duration-300">
+            <div class="text-6xl mb-6">⚽</div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 transition-colors duration-300">
+              {lang === 'it' ? 'Nessun articolo ancora' : 
+               lang === 'es' ? 'Aún no hay artículos' :
+               'No articles yet'}
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 transition-colors duration-300">
+              {lang === 'it' ? 'Torna presto per le nostre analisi tattiche' : 
+               lang === 'es' ? 'Vuelve pronto para nuestros análisis tácticos' :
+               'Come back soon for our tactical analysis'}
+            </p>
+          </div>
         </div>
       )}
     </div>
@@ -115,5 +153,22 @@ const sortedPosts = allPosts
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Animazione per le card degli articoli */
+  article {
+    group: article;
+  }
+  
+  article:hover .group-hover\:translate-x-1 {
+    transform: translateX(0.25rem);
+  }
+  
+  /* Pattern SVG responsive */
+  @media (max-width: 768px) {
+    #footballPattern {
+      width: 15;
+      height: 15;
+    }
   }
 </style>

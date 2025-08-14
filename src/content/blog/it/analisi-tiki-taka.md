@@ -34,3 +34,5 @@ Il tiki-taka ha influenzato:
 - L'evoluzione del ruolo del portiere
 
 Questa filosofia di gioco continua a evolversi, adattandosi alle nuove esigenze del calcio contemporaneo.
+
+![Tiki Taka example](../../../assets/tiki-taka-revolution/example.png)
