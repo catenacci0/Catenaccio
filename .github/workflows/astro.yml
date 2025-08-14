@@ -1,0 +1,75 @@
+name: Deploy Astro to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      # Calcola SITE e BASE_URL automaticamente.
+      # Opzione A) Se imposti la repository variable CUSTOM_DOMAIN (es: www.esempio.com),
+      #           userà quella (SITE=https://www.esempio.com, BASE_URL=/)
+      # Opzione B) Altrimenti pubblica su user.github.io/repo o / se il repo è user.github.io
+      - name: Compute SITE and BASE_URL
+        run: |
+          if [ -n "${{ vars.CUSTOM_DOMAIN }}" ]; then
+            echo "SITE=https://${{ vars.CUSTOM_DOMAIN }}" >> $GITHUB_ENV
+            echo "BASE_URL=/" >> $GITHUB_ENV
+          else
+            OWNER="${{ github.repository_owner }}"
+            REPO="${{ github.event.repository.name }}"
+            echo "SITE=https://${OWNER}.github.io" >> $GITHUB_ENV
+            if [ "$REPO" = "${OWNER}.github.io" ]; then
+              echo "BASE_URL=/" >> $GITHUB_ENV
+            else
+              echo "BASE_URL=/${REPO}/" >> $GITHUB_ENV
+            fi
+          fi
+          echo "Using SITE=$(cat $GITHUB_ENV | grep SITE | cut -d= -f2) BASE_URL=$(cat $GITHUB_ENV | grep BASE_URL | cut -d= -f2)"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          SITE: ${{ env.SITE }}
+          BASE_URL: ${{ env.BASE_URL }}
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
