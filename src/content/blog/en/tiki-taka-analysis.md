@@ -6,10 +6,6 @@ lang: "en"
 id: "tiki-taka-revolution"
 ---
 
-# Tactical Analysis: The Tiki-Taka Revolution in Modern Football
-
-Tiki-taka has revolutionized modern football, introducing a new paradigm of play based on ball possession and building from the back.
-
 ## System Evolution
 
 ### Origins and Development

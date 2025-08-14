@@ -6,10 +6,6 @@ lang: "it"
 id: "tiki-taka-revolution"
 ---
 
-# Analisi Tattica: La Rivoluzione del Tiki-Taka nel Calcio Moderno
-
-Il tiki-taka ha rivoluzionato il calcio moderno, introducendo un nuovo paradigma di gioco basato sul possesso palla e sulla costruzione dal basso.
-
 ## L'Evoluzione del Sistema
 
 ### Origini e Sviluppo

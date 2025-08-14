@@ -141,7 +141,7 @@ const { Content } = await render(post);
       </header>
 
       <!-- Article Content -->
-      <div class="prose prose-lg prose-blue dark:prose-invert max-w-none transition-colors duration-300">
+      <div class="prose prose-lg prose-blue dark:prose-invert max-w-none transition-colors duration-300 prose-headings:text-gray-900 dark:prose-headings:text-white prose-strong:text-gray-900 dark:prose-strong:text-white prose-em:text-gray-800 dark:prose-em:text-gray-100 prose-code:text-gray-900 dark:prose-code:text-white prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 prose-blockquote:text-gray-700 dark:prose-blockquote:text-gray-200 prose-p:text-gray-900 dark:prose-p:text-gray-100 prose-li:text-gray-900 dark:prose-li:text-gray-100">
         <Content />
       </div>
 
@@ -170,3 +170,91 @@ const { Content } = await render(post);
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* Testo ben leggibile ma più morbido in dark mode */
+  .dark .prose {
+    color: rgb(243 244 246) !important; /* text-gray-100 - più grigio */
+  }
+  
+  .dark .prose * {
+    color: rgb(243 244 246) !important; /* Tutti gli elementi figli */
+  }
+  
+  .dark .prose strong {
+    color: rgb(255 255 255) !important; /* text-white per il grassetto - più contrasto */
+    font-weight: 700;
+  }
+  
+  .dark .prose em {
+    color: rgb(243 244 246) !important; /* text-gray-100 */
+  }
+  
+  .dark .prose h1,
+  .dark .prose h2,
+  .dark .prose h3,
+  .dark .prose h4,
+  .dark .prose h5,
+  .dark .prose h6 {
+    color: rgb(255 255 255) !important; /* text-white per le intestazioni - più contrasto */
+  }
+  
+  .dark .prose p {
+    color: rgb(243 244 246) !important; /* text-gray-100 */
+  }
+  
+  .dark .prose li {
+    color: rgb(243 244 246) !important; /* text-gray-100 */
+  }
+  
+  .dark .prose span {
+    color: rgb(243 244 246) !important; /* text-gray-100 */
+  }
+  
+  .dark .prose div {
+    color: rgb(243 244 246) !important; /* text-gray-100 */
+  }
+  
+  .dark .prose blockquote {
+    color: rgb(243 244 246); /* text-gray-100 - distinguibile ma leggibile */
+    border-left-color: rgb(75 85 99); /* border-gray-600 */
+  }
+  
+  .dark .prose code {
+    color: rgb(255 255 255); /* text-white */
+    background-color: rgb(55 65 81); /* bg-gray-700 */
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
+  
+  .dark .prose pre {
+    background-color: rgb(31 41 55); /* bg-gray-800 */
+    color: rgb(255 255 255); /* text-white */
+  }
+  
+  .dark .prose pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .dark .prose table {
+    color: rgb(255 255 255); /* text-white */
+  }
+  
+  .dark .prose thead {
+    color: rgb(255 255 255); /* text-white */
+    border-bottom-color: rgb(75 85 99); /* border-gray-600 */
+  }
+  
+  .dark .prose tbody tr {
+    border-bottom-color: rgb(75 85 99); /* border-gray-600 */
+  }
+  
+  .dark .prose a {
+    color: rgb(96 165 250); /* text-blue-400 */
+  }
+  
+  .dark .prose a:hover {
+    color: rgb(147 197 253); /* text-blue-300 */
+  }
+</style>
