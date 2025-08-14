@@ -14,20 +14,23 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const _ = (k) => t(lang, k);
 
-// Get latest articles for this language
+// Get all posts for this language and sort by date
 const allPosts = await getCollection('blog', ({ data }) => data.lang === lang);
-const latestPosts = allPosts
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 6); // Show latest 6 articles
+const sortedPosts = allPosts.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// Get latest posts for preview section (limit to 3)
+const latestPosts = sortedPosts.slice(0, 3);
 ---
 
 <BaseLayout 
-  title={`${_('home.hero.title')} — ${_('common.tagline')}`} 
+  title={`${_('home.hero.title')} — Catenaccio`}
   description={_('home.hero.description')}
   lang={lang}
 >
   <Header lang={lang} />
-  
+
   <!-- Language Switcher -->
   <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
@@ -60,10 +63,7 @@ const latestPosts = allPosts
             {_('home.hero.description')}
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={createLangUrl(lang, '/blog')} class="inline-block bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
-              {_('nav.blog')}
-            </a>
-            <a href={createLangUrl(lang, '/about')} class="inline-block border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors">
+            <a href={createLangUrl(lang, '/about')} class="inline-block bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors">
               {_('nav.about')}
             </a>
           </div>
@@ -71,78 +71,14 @@ const latestPosts = allPosts
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">
-            {_('home.features.title')}
-          </h2>
-        </div>
-        
-        <div class="grid md:grid-cols-3 gap-8">
-          <!-- Tactical Analysis -->
-          <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mb-6 transition-colors duration-300">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">{_('home.features.tactical.title')}</h3>
-            <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">{_('home.features.tactical.description')}</p>
-          </div>
-
-          <!-- Data Analysis -->
-          <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mb-6 transition-colors duration-300">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">{_('home.features.data.title')}</h3>
-            <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">{_('home.features.data.description')}</p>
-          </div>
-
-          <!-- Multilingual -->
-          <div class="bg-white dark:bg-gray-700 p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mb-6 transition-colors duration-300">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">{_('home.features.multilang.title')}</h3>
-            <p class="text-gray-600 dark:text-gray-300 transition-colors duration-300">{_('home.features.multilang.description')}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 transition-colors duration-300">
-          {_('home.about.title')}
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed transition-colors duration-300">
-          {_('home.about.description')}
-        </p>
-        <div class="mt-12">
-          <a 
-            href={createLangUrl(lang, '/about')}
-            class="inline-block bg-blue-600 dark:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
-          >
-            {_('common.readMore')}
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Latest Articles Preview -->
+    <!-- Latest Articles Section -->
     <section class="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4 transition-colors duration-300">
-            {_('home.latestNews.title')}
+            {lang === 'it' ? 'Le Nostre Analisi' : 
+             lang === 'es' ? 'Nuestros Análisis' :
+             'Our Analysis'}
           </h2>
           <p class="text-lg text-gray-600 dark:text-gray-300 transition-colors duration-300">
             {lang === 'it' ? 'Le nostre ultime analisi e approfondimenti' : 
@@ -184,23 +120,42 @@ const latestPosts = allPosts
           </div>
         ) : (
           <div class="text-center py-12">
-            <p class="text-gray-500 dark:text-gray-400 text-lg transition-colors duration-300">{_('home.latestNews.noArticles')}</p>
+            <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg p-12 max-w-lg mx-auto transition-colors duration-300">
+              <div class="text-6xl mb-6">⚽</div>
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 transition-colors duration-300">
+                {lang === 'it' ? 'Nessun articolo ancora' : 
+                 lang === 'es' ? 'Aún no hay artículos' :
+                 'No articles yet'}
+              </h3>
+              <p class="text-gray-500 dark:text-gray-400 transition-colors duration-300">
+                {lang === 'it' ? 'Torna presto per le nostre analisi tattiche' : 
+                 lang === 'es' ? 'Vuelve pronto para nuestros análisis tácticos' :
+                 'Come back soon for our tactical analysis'}
+              </p>
+            </div>
           </div>
         )}
-        
-        <div class="text-center">
-          <a 
-            href={createLangUrl(lang, '/blog')}
-            class="inline-block bg-green-600 dark:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors duration-200"
-          >
-            {_('common.seeMore')}
-          </a>
-        </div>
       </div>
     </section>
+
+    
   </main>
 
   <Footer />
 </BaseLayout>
 
-
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

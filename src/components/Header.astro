@@ -37,9 +37,6 @@ const { lang = 'it' } = Astro.props;
 			<HeaderLink href={createLangUrl(lang)}>
 				{lang === 'it' ? 'Home' : lang === 'es' ? 'Inicio' : 'Home'}
 			</HeaderLink>
-			<HeaderLink href={createLangUrl(lang, '/blog')}>
-				{lang === 'it' ? 'Blog' : lang === 'es' ? 'Blog' : 'Blog'}
-			</HeaderLink>
 			<HeaderLink href={createLangUrl(lang, '/about')}>
 				{lang === 'it' ? 'Chi siamo' : lang === 'es' ? 'Acerca de' : 'About'}
 			</HeaderLink>

@@ -27,23 +27,6 @@ const sortedPosts = allPosts
   lang={lang}
 >
   <Header />
-  
-  <!-- Language Switcher -->
-  <div class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-      <div class="flex justify-end space-x-4">
-        <a href="/it/blog/" class={`text-sm transition-colors duration-200 ${lang === 'it' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
-          🇮🇹 Italiano
-        </a>
-        <a href="/en/blog/" class={`text-sm transition-colors duration-200 ${lang === 'en' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
-          🇬🇧 English
-        </a>
-        <a href="/es/blog/" class={`text-sm transition-colors duration-200 ${lang === 'es' ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}`}>
-          🇪🇸 Español
-        </a>
-      </div>
-    </div>
-  </div>
 
   <!-- Hero Section -->
   <section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 dark:from-blue-800 dark:via-blue-900 dark:to-gray-900 transition-colors duration-300">
