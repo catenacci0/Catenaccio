@@ -27,7 +27,7 @@ export async function getStaticPaths() {
       
       paths.push({
         params: { lang, id },
-        props: { postId: post.id } // Pass the post ID instead of the post object
+        props: { } // We'll find the post using params instead
       });
     }
   }
@@ -36,12 +36,15 @@ export async function getStaticPaths() {
 }
 
 const { lang, id } = Astro.params;
-const { postId } = Astro.props;
 const _ = (k) => t(lang, k);
 
 // Get the actual post object from the collection
 const allPosts = await getCollection('blog');
-const post = allPosts.find(p => p.id === postId);
+// Find post by matching the id parameter with either the custom id or slug
+const post = allPosts.find(p => {
+  const postId = p.data.id || p.slug;
+  return postId === id && p.data.lang === lang;
+});
 
 if (!post) {
   return Astro.redirect('/404');
