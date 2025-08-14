@@ -1,0 +1,135 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { t, LOCALES } from "../../i18n";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const _ = (k) => t(lang, k);
+---
+
+<BaseLayout 
+  title={`${_('nav.about')} — InsideTheGame`} 
+  description={_('home.about.description')}
+  lang={lang}
+>
+  <Header />
+  
+  <!-- Language Switcher -->
+  <div class="bg-gray-50 border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+      <div class="flex justify-end space-x-4">
+        <a href="/it/about/" class={`text-sm ${lang === 'it' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+          🇮🇹 Italiano
+        </a>
+        <a href="/en/about/" class={`text-sm ${lang === 'en' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+          🇬🇧 English
+        </a>
+        <a href="/es/about/" class={`text-sm ${lang === 'es' ? 'font-bold text-blue-600' : 'text-gray-600 hover:text-blue-600'}`}>
+          🇪🇸 Español
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8 text-center">
+        {_('nav.about')}
+      </h1>
+      
+      <div class="prose prose-lg mx-auto">
+        <p class="text-xl text-gray-600 leading-relaxed mb-8">
+          {_('home.about.description')}
+        </p>
+        
+        <h2 class="text-2xl font-semibold mb-4">
+          {lang === 'it' ? 'I Nostri Valori' : 
+           lang === 'es' ? 'Nuestros Valores' : 
+           'Our Values'}
+        </h2>
+        
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-start">
+            <span class="text-blue-600 mr-3">📊</span>
+            <div>
+              <strong>
+                {lang === 'it' ? 'Analisi Basata sui Dati' : 
+                 lang === 'es' ? 'Análisis Basado en Datos' : 
+                 'Data-Driven Analysis'}
+              </strong>
+              <p class="text-gray-600">
+                {lang === 'it' ? 'Utilizziamo dati avanzati e statistiche per fornire analisi accurate e obiettive.' :
+                 lang === 'es' ? 'Utilizamos datos avanzados y estadísticas para proporcionar análisis precisos y objetivos.' :
+                 'We use advanced data and statistics to provide accurate and objective analysis.'}
+              </p>
+            </div>
+          </li>
+          
+          <li class="flex items-start">
+            <span class="text-green-600 mr-3">⚽</span>
+            <div>
+              <strong>
+                {lang === 'it' ? 'Passione per il Calcio' : 
+                 lang === 'es' ? 'Pasión por el Fútbol' : 
+                 'Passion for Football'}
+              </strong>
+              <p class="text-gray-600">
+                {lang === 'it' ? 'La nostra passione per il calcio guida ogni analisi e approfondimento che pubblichiamo.' :
+                 lang === 'es' ? 'Nuestra pasión por el fútbol guía cada análisis y profundización que publicamos.' :
+                 'Our passion for football drives every analysis and insight we publish.'}
+              </p>
+            </div>
+          </li>
+          
+          <li class="flex items-start">
+            <span class="text-purple-600 mr-3">🌍</span>
+            <div>
+              <strong>
+                {lang === 'it' ? 'Prospettiva Globale' : 
+                 lang === 'es' ? 'Perspectiva Global' : 
+                 'Global Perspective'}
+              </strong>
+              <p class="text-gray-600">
+                {lang === 'it' ? 'Copriamo il calcio da tutto il mondo, offrendo contenuti in multiple lingue.' :
+                 lang === 'es' ? 'Cubrimos el fútbol de todo el mundo, ofreciendo contenido en múltiples idiomas.' :
+                 'We cover football from around the world, offering content in multiple languages.'}
+              </p>
+            </div>
+          </li>
+        </ul>
+        
+        <h2 class="text-2xl font-semibold mb-4">
+          {lang === 'it' ? 'Il Nostro Team' : 
+           lang === 'es' ? 'Nuestro Equipo' : 
+           'Our Team'}
+        </h2>
+        
+        <p class="text-gray-600 mb-8">
+          {lang === 'it' ? 'Il nostro team è composto da analisti esperti, ex giocatori professionali e appassionati di calcio che condividono la stessa visione: portare l\'analisi calcistica a un livello superiore attraverso l\'uso di tecnologie avanzate e metodologie innovative.' :
+           lang === 'es' ? 'Nuestro equipo está compuesto por analistas expertos, ex jugadores profesionales y apasionados del fútbol que comparten la misma visión: llevar el análisis futbolístico a un nivel superior a través del uso de tecnologías avanzadas y metodologías innovadoras.' :
+           'Our team consists of expert analysts, former professional players and football enthusiasts who share the same vision: to take football analysis to the next level through the use of advanced technologies and innovative methodologies.'}
+        </p>
+        
+        <div class="bg-gray-50 p-6 rounded-lg">
+          <h3 class="text-lg font-semibold mb-3">
+            {lang === 'it' ? 'Contattaci' : 
+             lang === 'es' ? 'Contáctanos' : 
+             'Contact Us'}
+          </h3>
+          <p class="text-gray-600">
+            {lang === 'it' ? 'Hai domande o suggerimenti? Ci piacerebbe sentire la tua opinione!' :
+             lang === 'es' ? '¿Tienes preguntas o sugerencias? ¡Nos encantaría escuchar tu opinión!' :
+             'Have questions or suggestions? We\'d love to hear from you!'}
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

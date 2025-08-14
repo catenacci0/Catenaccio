@@ -9,11 +9,19 @@ const blog = defineCollection({
 		z.object({
 			title: z.string(),
 			description: z.string(),
-			// Transform string to Date object
-			pubDate: z.coerce.date(),
+			date: z.coerce.date().optional(),
+			// Legacy support for pubDate
+			pubDate: z.coerce.date().optional(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: image().optional(),
-		}),
+			lang: z.enum(['it', 'en', 'es']).default('en'),
+		}).refine((data) => data.date || data.pubDate, {
+			message: "Either 'date' or 'pubDate' must be provided",
+		}).transform((data) => ({
+			...data,
+			// Use date if provided, otherwise use pubDate for backward compatibility
+			date: data.date || data.pubDate!,
+		})),
 });
 
 export const collections = { blog };
