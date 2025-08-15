@@ -32,12 +32,19 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      # Imposta automaticamente SITE/BASE_URL (supporta dominio custom via repo variable CUSTOM_DOMAIN)
+      # Imposta automaticamente SITE/BASE_URL per catenaccio.net
       - name: Compute SITE and BASE_URL
         run: |
-          if [ -n "${{ vars.CUSTOM_DOMAIN }}" ]; then
+          # Controlla se esiste un file CNAME o usa la variabile CUSTOM_DOMAIN
+          if [ -f "public/CNAME" ]; then
+            CUSTOM_DOMAIN=$(cat public/CNAME)
+            echo "SITE=https://${CUSTOM_DOMAIN}" >> $GITHUB_ENV
+            echo "BASE_URL=/" >> $GITHUB_ENV
+            echo "Using custom domain from CNAME: ${CUSTOM_DOMAIN}"
+          elif [ -n "${{ vars.CUSTOM_DOMAIN }}" ]; then
             echo "SITE=https://${{ vars.CUSTOM_DOMAIN }}" >> $GITHUB_ENV
             echo "BASE_URL=/" >> $GITHUB_ENV
+            echo "Using custom domain from variable: ${{ vars.CUSTOM_DOMAIN }}"
           else
             OWNER="${{ github.repository_owner }}"
             REPO="${{ github.event.repository.name }}"
@@ -47,6 +54,7 @@ jobs:
             else
               echo "BASE_URL=/${REPO}/" >> $GITHUB_ENV
             fi
+            echo "Using GitHub Pages default: ${OWNER}.github.io/${REPO}"
           fi
 
       - name: Install dependencies
@@ -56,7 +64,20 @@ jobs:
         env:
           SITE: ${{ env.SITE }}
           BASE_URL: ${{ env.BASE_URL }}
-        run: npm run build
+        run: |
+          echo "Building with SITE=${{ env.SITE }} and BASE_URL=${{ env.BASE_URL }}"
+          npm run build
+
+      - name: Verify build output
+        run: |
+          echo "Build completed. Contents of dist:"
+          ls -la dist/
+          if [ -f "dist/CNAME" ]; then
+            echo "CNAME file found in dist:"
+            cat dist/CNAME
+          else
+            echo "Warning: CNAME file not found in dist directory"
+          fi
 
       # Preparazione Pages (consigliato da GitHub)
       - name: Setup Pages
