@@ -5,13 +5,21 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig } from 'astro/config';
 
-// Determine if we're building for GitHub Pages or custom domain
-const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.CI;
-const baseUrl = isGitHubPages ? '/y' : '';
+// Determine deployment configuration
+// Use environment variable to force GitHub Pages mode when deploying to GitHub
+const forceGitHubPages = process.env.DEPLOY_TARGET === 'github';
+const isLocalBuild = !process.env.CI;
+
+// For GitHub Pages deployment, use base path and github.io domain
+// For custom domain deployment, use no base path and custom domain
+const useGitHubConfig = forceGitHubPages || (process.env.CI && !process.env.CUSTOM_DOMAIN);
+
+const siteUrl = useGitHubConfig ? 'https://keyserdsoze.github.io' : 'https://catenaccio.net';
+const baseUrl = useGitHubConfig ? '/y' : '';
 
 // https://astro.build/config
 export default defineConfig({
-	site: isGitHubPages ? 'https://keyserdsoze.github.io' : 'https://catenaccio.net',
+	site: siteUrl,
 	base: baseUrl,
 	integrations: [mdx(), sitemap(), tailwind()],
 	build: {
