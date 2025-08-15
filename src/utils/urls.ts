@@ -20,8 +20,25 @@ export function getBasePath(): string {
     // Default to no base path
     return '';
   } else {
-    // Server environment - check environment variables
-    const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.CI;
+    // Server environment - check for custom domain first
+    if (process.env.SITE?.includes('catenaccio.net')) {
+      return '';
+    }
+    // Check if BASE_URL is explicitly set by GitHub Actions
+    if (process.env.BASE_URL !== undefined) {
+      return process.env.BASE_URL;
+    }
+    // Check for CNAME file (custom domain)
+    try {
+      const fs = require('fs');
+      if (fs.existsSync('./public/CNAME')) {
+        return '';
+      }
+    } catch (error) {
+      // Ignore file system errors
+    }
+    // Only use /y if explicitly on GitHub Pages without custom domain
+    const isGitHubPages = process.env.GITHUB_PAGES === 'true' && !process.env.SITE?.includes('catenaccio.net');
     return isGitHubPages ? '/y' : '';
   }
 }
