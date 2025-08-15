@@ -7,11 +7,17 @@
 export function getBasePath(): string {
   // Check if we're in the browser or server
   if (typeof window !== 'undefined') {
-    // Browser environment - check the current pathname
-    const pathname = window.location.pathname;
-    if (pathname.startsWith('/y/')) {
+    // Browser environment - check the current hostname
+    const hostname = window.location.hostname;
+    // If we're on the custom domain, don't use base path
+    if (hostname === 'catenaccio.net' || hostname === 'www.catenaccio.net') {
+      return '';
+    }
+    // If we're on GitHub Pages, use base path
+    if (hostname.includes('github.io')) {
       return '/y';
     }
+    // Default to no base path
     return '';
   } else {
     // Server environment - check environment variables
