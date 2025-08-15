@@ -11,7 +11,7 @@ const baseUrl = isGitHubPages ? '/y' : '';
 
 // https://astro.build/config
 export default defineConfig({
-	site: isGitHubPages ? 'https://keyserdsoze.github.io' : 'https://yourdomain.com',
+	site: isGitHubPages ? 'https://keyserdsoze.github.io' : 'https://catenaccio.net',
 	base: baseUrl,
 	integrations: [mdx(), sitemap(), tailwind()],
 	build: {
